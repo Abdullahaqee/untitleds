@@ -27,7 +27,7 @@ class auth extends GetxController{
       Get.offAll(()=>signup());
     }else {
       final userEmail = user.email ?? "No Email Available"; // Provide a default value
-      Get.offAll(() => Bashboard());
+      Get.offAll(() => Dashboard());
     }
   }
 

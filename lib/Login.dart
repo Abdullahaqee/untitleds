@@ -1,19 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled/auth.dart';
 import 'package:untitled/signup.dart';
 import 'Dashboard.dart';
 import 'allwidget.dart';
 
-class Signin extends StatefulWidget {
+class loginn extends StatefulWidget {
   @override
-  State<Signin> createState() => _SigninState();
+  State<loginn> createState() => _loginnState();
 }
 
-class _SigninState extends State<Signin> {
+class _loginnState extends State<loginn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -89,26 +86,26 @@ class _SigninState extends State<Signin> {
                   ],
                 ),
                 Gap(40),
-            submitbutton(context, false, () async {
-              bool loggedIn = await auth.instance.login(
-                emailController.text.trim(),
-                passwordController.text.trim(),
-              );
+                submitbutton(context, false, () async {
+                  bool loggedIn = await auth.instance.login(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                  );
 
-              if (loggedIn) {
-                // Navigate to Dashboard if login is successful
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Bashboard()));
-              } else {
-                // Show toast message indicating incorrect email or password
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Incorrect email or password'),
-                  ),
-                );
-              }
-            })
-
-            ],
+                  if (loggedIn) {
+                    // Navigate to Dashboard if login is successful
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Dashboard()));
+                  } else {
+                    // Show toast message indicating incorrect email or password
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Incorrect email or password'),
+                      ),
+                    );
+                  }
+                })
+              ],
             ),
           ),
         ),

@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:untitled/auth.dart';
-import 'Dashboard.dart';
 import 'Login.dart';
 import 'allwidget.dart';
 
@@ -62,7 +60,7 @@ class _signupState extends State<signup> {
                   // If registration is successful, navigate to the login page
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Signin()),
+                    MaterialPageRoute(builder: (context) => loginn()),
                   );
                 } else {
                   // Show toast message indicating registration failed
@@ -88,7 +86,7 @@ class _signupState extends State<signup> {
                       ),
                       onTap: () {
                         Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Signin()));
+                            MaterialPageRoute(builder: (context) => loginn()));
                         //   });
                         // });
                       },
