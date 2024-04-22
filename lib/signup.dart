@@ -39,7 +39,7 @@ class _signupState extends State<signup> {
             child: Column(
               children: [
                 Gap(40),
-                Text('signin', style: TextStyle(color: Colors.white,
+                Text('Sign up', style: TextStyle(color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.w600),),
                 Gap(40),
@@ -81,7 +81,7 @@ class _signupState extends State<signup> {
                         color: Colors.black, fontWeight: FontWeight.w200),),
                     InkWell(
                       child: Text(
-                        'Signin', style: TextStyle(
+                        'Login', style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w300),
                       ),
                       onTap: () {

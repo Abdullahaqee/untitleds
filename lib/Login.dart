@@ -19,8 +19,14 @@ class _loginnState extends State<loginn> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.cyan, Colors.white60],
@@ -35,7 +41,7 @@ class _loginnState extends State<loginn> {
               children: [
                 Gap(20),
                 Text(
-                  'Sign In',
+                  'Log In',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,
@@ -86,25 +92,32 @@ class _loginnState extends State<loginn> {
                   ],
                 ),
                 Gap(40),
-                submitbutton(context, false, () async {
-                  bool loggedIn = await auth.instance.login(
-                    emailController.text.trim(),
-                    passwordController.text.trim(),
-                  );
-
-                  if (loggedIn) {
-                    // Navigate to Dashboard if login is successful
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Dashboard()));
-                  } else {
-                    // Show toast message indicating incorrect email or password
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Incorrect email or password'),
-                      ),
+                submitButton(
+                  context,
+                  false,
+                      () async {
+                    bool loggedIn = await auth.instance.login(
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
                     );
-                  }
-                })
+
+                    if (loggedIn) {
+                      // Navigate to Dashboard if login is successful
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Dashboard()),
+                      );
+                    } else {
+                      // Show toast message indicating incorrect email or password
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Incorrect email or password'),
+                        ),
+                      );
+                    }
+                  },
+                  buttonText: 'Login', // Specify 'Login' as the button text
+                )
               ],
             ),
           ),
@@ -112,4 +125,35 @@ class _loginnState extends State<loginn> {
       ),
     );
   }
+
+  Widget submitButton(BuildContext context, bool isLoading, Function onPressed,
+      {String buttonText = 'Signup'}) {
+    return ElevatedButton(
+      onPressed: () async {
+        bool loggedIn = await auth.instance.login(
+          emailController.text.trim(),
+          passwordController.text.trim(),
+        );
+
+        if (loggedIn) {
+          // Navigate to Dashboard if login is successful
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Dashboard()),
+          );
+        } else {
+          // Show toast message indicating incorrect email or password
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Incorrect email or password'),
+            ),
+          );
+        }
+      },
+      child: isLoading
+          ? CircularProgressIndicator()
+          : Text(buttonText), // Change 'Signup' to 'Login'
+    );
+  }
 }
+
