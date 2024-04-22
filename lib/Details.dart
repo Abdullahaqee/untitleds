@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/Dashboard.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
+  @override
+  State<DetailScreen> createState() => DetailScreenState();
+}
+
+class DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

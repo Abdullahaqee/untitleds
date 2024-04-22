@@ -5,10 +5,10 @@ import 'Login.dart';
 
 class Dashboard extends StatefulWidget {
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<Dashboard> createState() => DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,11 +84,11 @@ class _DashboardState extends State<Dashboard> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _buildCategoryItem('Mountain'),
-                  _buildCategoryItem('Trees'),
-                  _buildCategoryItem('Riverview'),
-                  _buildCategoryItem('Waterfall'),
-                  _buildCategoryItem('Landsliding'),
+                  buildItem('Mountain'),
+                  buildItem('Trees'),
+                  buildItem('Riverview'),
+                  buildItem('Waterfall'),
+                  buildItem('Landsliding'),
                 ].map((widget) => Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: widget,
@@ -108,9 +108,9 @@ class _DashboardState extends State<Dashboard> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _buildPopularItem('assets/images/abc3.jpeg'),
-                  _buildPopularItem('assets/images/abc5.jpg'),
-                  _buildPopularItem('assets/images/abc4.webp'),
+                  buildItems('assets/images/abc3.jpeg'),
+                  buildItems('assets/images/abc5.jpg'),
+                  buildItems('assets/images/abc4.webp'),
                 ].map((widget) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: widget,
@@ -134,7 +134,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Widget _buildCategoryItem(String categoryName) {
+  Widget buildItem(String categoryName) {
     return Container(
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -145,7 +145,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Widget _buildPopularItem(String imagePath) {
+  Widget buildItems(String imagePath) {
     return InkWell(
       onTap: () {
         Navigator.pushReplacement(
