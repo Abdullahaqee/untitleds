@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:untitled/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:untitled/signup.dart';
 import 'Dashboard.dart';
 import 'allwidget.dart';
@@ -13,20 +14,15 @@ class loginn extends StatefulWidget {
 class _loginnState extends State<loginn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.cyan, Colors.white60],
@@ -96,19 +92,14 @@ class _loginnState extends State<loginn> {
                   context,
                   false,
                       () async {
-                    bool loggedIn = await auth.instance.login(
-                      emailController.text.trim(),
-                      passwordController.text.trim(),
-                    );
+                    bool loggedIn = await _signInWithEmailAndPassword();
 
                     if (loggedIn) {
-                      // Navigate to Dashboard if login is successful
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => Dashboard()),
                       );
                     } else {
-                      // Show toast message indicating incorrect email or password
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Incorrect email or password'),
@@ -116,8 +107,28 @@ class _loginnState extends State<loginn> {
                       );
                     }
                   },
-                  buttonText: 'Login', // Specify 'Login' as the button text
-                )
+                  buttonText: 'Login',
+                ),
+                Gap(10),
+                ElevatedButton(
+                  onPressed: () async {
+                    bool loggedIn = await _signInWithGoogle();
+
+                    if (loggedIn) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Dashboard()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Google Sign-In failed'),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('Sign In with Google'),
+                ),
               ],
             ),
           ),
@@ -126,34 +137,50 @@ class _loginnState extends State<loginn> {
     );
   }
 
+  Future<bool> _signInWithEmailAndPassword() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      return true;
+    } catch (e) {
+      print('Error signing in: $e');
+      return false;
+    }
+  }
+
+  Future<bool> _signInWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      if(googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!
+            .authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        await _auth.signInWithCredential(credential);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Dashboard()));
+      }
+      return true;
+    } catch (e) {
+      print('Error signing in with Google: $e');
+      return false;
+    }
+  }
+
   Widget submitButton(BuildContext context, bool isLoading, Function onPressed,
       {String buttonText = 'Signup'}) {
     return ElevatedButton(
-      onPressed: () async {
-        bool loggedIn = await auth.instance.login(
-          emailController.text.trim(),
-          passwordController.text.trim(),
-        );
-
-        if (loggedIn) {
-          // Navigate to Dashboard if login is successful
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Dashboard()),
-          );
-        } else {
-          // Show toast message indicating incorrect email or password
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Incorrect email or password'),
-            ),
-          );
-        }
-      },
+      onPressed: (){},
       child: isLoading
           ? CircularProgressIndicator()
-          : Text(buttonText), // Change 'Signup' to 'Login'
+          : Text(buttonText),
     );
   }
 }
-
