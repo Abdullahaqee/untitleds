@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +14,7 @@ class loginn extends StatefulWidget {
 }
 
 class _loginnState extends State<loginn> {
+  DatabaseReference ref = FirebaseDatabase.instance.ref().child('user');
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
