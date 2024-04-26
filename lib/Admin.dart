@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/login.dart'; // Assuming this is the file where the loginn widget is defined
-import 'Details.dart'; // Assuming this is the file where the DetailScreen widget is defined
+import 'package:untitled/Data1.dart';
+
 
 class adminpage extends StatefulWidget {
   @override
@@ -8,74 +8,46 @@ class adminpage extends StatefulWidget {
 }
 
 class _adminpageState extends State<adminpage> {
-  late PageController pageController;
-  int currentPageIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController(initialPage: currentPageIndex);
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  void navigateToPage(int index) {
-    pageController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.ease,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  currentPageIndex = index;
-                });
+      body: Container(
+        margin: EdgeInsets.only(left: 20,right: 20,top: 50),
+        child: Column(
+          children: [
+            Center(child: Text('admin Page',),),
+            SizedBox(height: 50,),
+            GestureDetector(
+              onTap: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>data1()));
               },
-              children: [
-                // Screen for controlling login
-                loginn(
-                  // You can pass any necessary parameters to customize the login screen
+              child: Material(
+                elevation: 10,
+                borderRadius: BorderRadius.circular(10),
+                child: Center(
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.black
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(padding: EdgeInsets.all(6.0),
+                          child: Image.asset('assets/images/abc.jpg',height: 100,width: 100,fit: BoxFit.cover,),
+                        ),
+                        SizedBox(width: 30.0,),
+                        Text('add picture',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                      ],
+                    ),
+                  ),
                 ),
-                // Screen for controlling DetailScreen
-                DetailScreen(),
-                // Add more pages/screens as needed
-              ],
-            ),
-          ),
-          // Navigation buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  navigateToPage(0); // Navigate to login screen
-                },
-                child: Text('Control Login'),
               ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  navigateToPage(1); // Navigate to DetailScreen control
-                },
-                child: Text('Control DetailScreen'),
-              ),
-              // Add more navigation buttons as needed
-            ],
-          ),
-        ],
+            )
+          ],
+        ),
+
       ),
     );
   }
